@@ -1,0 +1,26 @@
+html, body {
+  font-family: Arial, sans-serif;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+#map {
+  height: 100%;
+}
+.searchPanel {
+  float: left;
+  height: 100%;
+  width: 15%;
+  background-color: black;
+}
+.searchPanel h3 {
+  color: white
+}
+.topBar{
+  background-color: #595959;
+  height: 40px;
+}
+.topBar p {
+  margin: 0px;
+  border: 0px;
+}

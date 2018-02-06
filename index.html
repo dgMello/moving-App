@@ -1,21 +1,33 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script type='text/javascript' src='knockout-3.4.2.js'></script>
-    <style>
-      html,
-      body {
-        font-family: Arial, sans-serif;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      #map {
-        height: 100%;
-      }
-    </style>
+    <script type='text/javascript' src='static/js/knockout-3.4.2.js'></script>
+    <link rel="stylesheet" type="text/css" href="static/css/styles.css">
   </head>
   <body>
+    <div class="topBar">
+      <button id="hidePaneButton" type="button">
+        <span class="glyphicons glyphicons-menu-hamburger">
+          <img src="static/images/glyphicons-517-menu-hamburger.png">
+        </span>
+      </button>
+    </div>
+    <div class="searchPanel">
+      <h3>Worcester Locations</h3>
+      <div class="searchBarButton">
+        <form>
+          <input type="text" name="searchLocation" placeholder="Enter Search Here">
+            <button id="filterButton" type="button">
+              <span class="glyphicons glyphicons-filter">
+              <img src="static/images/glyphicons-321-filter.png">
+              Filter
+            </button>
+            </span>
+        </form>
+      </div>
+      <div class"searchList">
+      </div>
+    </div>
     <div id="map"></div>
     <script>
       var map;
@@ -77,10 +89,8 @@
         }
       }
     </script>
-
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8zsTe7cMp6CtEqyWs_JWka26D2JXWFl8&v=3&callback=initMap">
     </script>
-
   </body>
 </html>
