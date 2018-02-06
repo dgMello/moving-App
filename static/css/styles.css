@@ -7,13 +7,13 @@ html, body {
 #map {
   height: 100%;
 }
-.searchPanel {
+#searchPanel {
   float: left;
   height: 100%;
   width: 15%;
   background-color: black;
 }
-.searchPanel h3 {
+#searchPanel h3 {
   color: white
 }
 .topBar{
