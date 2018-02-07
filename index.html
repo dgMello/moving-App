@@ -6,31 +6,32 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type='text/javascript' src='static/js/lib/knockout-3.4.2.js'></script>
-
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </head>
   <body>
     <div class="topBar">
-      <button id="hidePaneButton" type="button" class="btn btn-info" data-toggle="collapse" data-target='#searchPanel'>
+      <button id="hidePaneButton" type="button" data-bind="click: hidePane">
         <span class="glyphicon glyphicon-menu-hamburger"></span>
       </button>
     </div>
-    <div id="searchPanel" class="collapse in">
+    <div id="searchPanel">
       <h3>Worcester Locations</h3>
       <div class="searchBarButton">
         <form>
           <input type="text" name="searchLocation" placeholder="Enter Search Here">
-          <button id="filterButton" type="button">
+          <button id="filterButton" type="button" ata-bind="click: filterSearch">
             <span class="glyphicon glyphicon-filter"></span>
             Filter
           </button>
         </form>
       </div>
       <div class"searchList">
+        <ul data-bind="foreach: locationList">
+          <li data-bind="test: name" data-bind="click: selectMarker"></li>
+        </ul>
       </div>
     </div>
     <div id="map"></div>
-    <script src="static/js/ViewModel.js"></script>
+    <script src="static/js/app.js"></script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8zsTe7cMp6CtEqyWs_JWka26D2JXWFl8&v=3&callback=initMap">
     </script>
