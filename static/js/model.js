@@ -1,14 +1,9 @@
 // Models for mover app.
 var model = {
-  // Create map attributes for map creation
-  mapAttributes: [
-    // Set map variable to none
-    map: null,
-    // Set center coordinates for map
-    center: {lat: 42.2683199, lng: -71.8174296},
-    // Set zoom for map
-    zoom: 5
-  ],
+  // Create map variable
+  map: null,
+  // Marker Variable
+  markers: [],
   // List of locations that will be made into markers and info windows.
   locations: [
     {
