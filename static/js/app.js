@@ -1,5 +1,7 @@
-/* ======= Google Map ======= */
+/* ======= Global Variables ======*/
 var map;
+var largeInfowindow;
+/* ======= Google Map ======= */
 // Function to initilize map.
 function initMap() {
   // Create mapElem
@@ -8,22 +10,18 @@ function initMap() {
   var largeInfowindow = new google.maps.InfoWindow();
   // Create initial bounds variable
   var bounds = new google.maps.LatLngBounds();
-  markers = viewModel.getMarkers();
+  markers = [];
   map = new google.maps.Map(this.mapElem, {
     center: {lat: 42.2683199, lng: -71.8174296},
     zoom: 13
   });
   console.log("Map created!");
-  // Create location var from using viewModel function getMakers.
-  markers = viewModel.getMarkers();
-  // Create location var from using viewModel function getLocations.
-  locations = viewModel.getLocations();
   // For loop to create and push markers
-  for (var i = 0; i < locations.length; i++) {
+  for (var i = 0; i < locationsData.length; i++) {
     // Get postion from locaton var
-    var position = locations[i].location;
+    var position = locationsData[i].location;
     // Get title from locaton var
-    var title = locations[i].title;
+    var title = locationsData[i].title;
     // Create a marker per location, and put into markers array.
     var marker = new google.maps.Marker({
       map: map,
@@ -39,72 +37,60 @@ function initMap() {
   }
   // Fit the bounds.
   map.fitBounds(bounds);
-  // Update the markers variable in your model with the updateMakers function.
-  viewModel.updateMakers(markers);
+  ko.applyBindings(new viewModel());
 };
 
-
-/* ======= Model ======= */
-
-
-// Models for mover app.
-var model = {
-  // Marker Variable
-  markers: [],
-  // List of locations that will be made into markers and info windows.
-  locations: [
-    {
-      title: 'Worcester Art Museum',
-      location: {lat: 42.2730221, lng: -71.8019689}
-    },
-    {
-      title: 'Hanover Theatre',
-      location: {lat: 42.2607026, lng: -71.8029641}
-    },
-    {
-      title: 'Worcester State',
-      location: {lat: 42.2677103, lng: -71.8440334}
-    },
-    {
-      title: 'Wormtown Brewery',
-      location: {lat: 42.2634965, lng: -71.7912016}
-    },
-    {
-      title: 'Armsby Abbey',
-      location: {lat: 42.2687583, lng: -71.8007635}
-    }
-  ]
-};
+// Variable contaning locations info.
+var locationsData = [
+  {
+    title: 'Worcester Art Museum',
+    location: {lat: 42.2730221, lng: -71.8019689}
+  },
+  {
+    title: 'Hanover Theatre',
+    location: {lat: 42.2607026, lng: -71.8029641}
+  },
+  {
+    title: 'Worcester State',
+    location: {lat: 42.2677103, lng: -71.8440334}
+  },
+  {
+    title: 'Wormtown Brewery',
+    location: {lat: 42.2634965, lng: -71.7912016}
+  },
+  {
+    title: 'Armsby Abbey',
+    location: {lat: 42.2687583, lng: -71.8007635}
+  }
+]
 
 
 /* ======= ViewModel ======= */
-
-
-var viewModel = {
-  // Function to initilize app
-  init: function() {
-    console.log("viewModel intialized!")
-  },
-  // Function to get list of locations.
-  getLocations: function() {
-    return model.locations;
-  },
-  // Function to get markers.
-  getMarkers: function() {
-    return model.markers;
-  },
-  // Function to return status of hide side panel button.
-  getHidePanelButtonStatus: function() {
-    return model.hideSidePanelPressed;
-  },
-  // Function to get bounds from model.
-  getBounds: function() {
-    return model.mapBounds;
-  },
-  // Function to update markers in the model
-  updateMakers: function(newMarkers) {
-    model.markers.push(newMarkers);
-  }
+var viewModel = function() {
+  console.log("The bindings have binded!");
+  var self = this;
+  // Create ko observable for search input.
+  self.searchLocation = ko.observable();
+  // Create KO observable array for markers
+  self.markerList = ko.observableArray([]);
+  // Push markers to marker list observable array.
+  markers.forEach(function(marker) {
+    self.markerList.push(marker);
+  });
+  // Create KO observable array for locatoins
+  self.locationList = ko.observableArray([]);
+  // Go through locations array and create a observable array.
+  locationsData.forEach(function(location){
+    self.locationList.push({name: location.title});
+  });
+  // Hide pane function
+  self.hidePane = function() {
+  };
+  // Filter search function
+  self.filterSearch = function() {
+  };
+  // Select marker function
+  self.selectMarker = function() {
+    console.log("Clicked!");
+  };
 };
-// initilize scripts.
-viewModel.init();

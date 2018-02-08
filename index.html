@@ -13,20 +13,20 @@
         <span class="glyphicon glyphicon-menu-hamburger"></span>
       </button>
     </div>
-    <div id="searchPanel">
+    <div id="searchPanel" data-bind="disable: ">
       <h3>Worcester Locations</h3>
       <div class="searchBarButton">
         <form>
-          <input type="text" name="searchLocation" placeholder="Enter Search Here">
-          <button id="filterButton" type="button" ata-bind="click: filterSearch">
+          <input type="text" name="searchLocation" placeholder="Enter Search Here" data-bind="">
+          <button id="filterButton" type="button" data-bind="click: filterSearch">
             <span class="glyphicon glyphicon-filter"></span>
             Filter
           </button>
         </form>
       </div>
       <div class"searchList">
-        <ul data-bind="foreach: locationList">
-          <li data-bind="test: name" data-bind="click: selectMarker"></li>
+        <ul id="locationList" data-bind="foreach: locationList">
+          <li id="locationListName" data-bind="text: name"></li>
         </ul>
       </div>
     </div>

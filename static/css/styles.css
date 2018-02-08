@@ -14,7 +14,13 @@ html, body {
   background-color: black;
 }
 #searchPanel h3 {
-  color: white
+  color: white;
+}
+#locationListName {
+  color: white;
+}
+#locationList {
+  list-style-type: none;
 }
 .topBar{
   background-color: #595959;
