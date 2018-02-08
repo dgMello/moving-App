@@ -10,11 +10,12 @@ html, body {
 #searchPanel {
   float: left;
   height: 100%;
-  width: 15%;
+  width: 247.375px;
   background-color: black;
 }
 #searchPanel h3 {
   color: white;
+  text-align: center;
 }
 #locationListName {
   color: white;
@@ -22,11 +23,36 @@ html, body {
 #locationList {
   list-style-type: none;
 }
-.topBar{
+#hidePaneButton {
+  margin-top: 7px;
+  margin-bottom: 7px;
+  margin-left: 7px;
+}
+#searchForm {
+  margin-right: 0px;
+}
+#searchField {
+  width: 60%
+}
+#locationList {
+  text-align: left;
+  padding-left: 20px;
+  margin: 1%;
+}
+#locationListName {
+  margin-top: 10%;
+  margin-bottom: 10%;
+}
+#filterButton {
+  margin-left: 0px;
+}
+.topBar {
   background-color: #595959;
   height: 40px;
 }
 .topBar p {
   margin: 0px;
   border: 0px;
+}
+.mainContent {
 }
