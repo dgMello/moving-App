@@ -78,6 +78,7 @@ var viewModel = function() {
     // Create an onclick event to open an infowindow at each marker.
     marker.addListener('click', function() {
       populateInfoWindow(this, largeInfowindow);
+      marker.animation = google.maps.Animation.DROP;
     });
   }
   // Fit the bounds.
