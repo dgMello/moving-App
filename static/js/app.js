@@ -95,7 +95,6 @@ var viewModel = function() {
   });
   // Create ko obersable boolean for search panel visibility.
   self.showSearchPanel = ko.observable(true);
-  var searchButtonStatus = true;
   // Create KO observable array for locatoins
   self.locationList = ko.observableArray([]);
   // Go through locations array and create a observable array.
@@ -107,13 +106,11 @@ var viewModel = function() {
 
   // Toggle pane function
   self.toggleSearchPane = function() {
-    if (searchButtonStatus) {
+    if (self.showSearchPanel()) {
       self.showSearchPanel(false);
-      searchButtonStatus = false;
       $("#hidePaneButton").attr("title","Show Search Pane");
     } else {
       self.showSearchPanel(true);
-      searchButtonStatus = true;
       $("#hidePaneButton").attr("title","Hide Search Pane");
     }
   };
