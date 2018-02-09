@@ -9,13 +9,14 @@
     <script type='text/javascript' src='static/js/lib/knockout-3.4.2.js'></script>
   </head>
   <body>
-    <div id="searchPanel" data-bind="disable: ">
+    <div id="searchPanel" data-bind="visible: showSearchPanel">
       <h3>Worcester Locations</h3>
       <div class="searchBarButton">
         <form id="searchForm">
           <input id="searchField" type="text" name="searchLocation"
             placeholder="Enter Search Here" data-bind="">
-          <button id="filterButton" type="button" data-bind="click: filterSearch">
+          <button id="filterButton" type="button"
+          title="Filter Search" data-bind="click: filterSearch">
             <span class="glyphicon glyphicon-filter"></span>
             Filter
           </button>
@@ -29,7 +30,8 @@
     </div>
     <section class="mainContent">
       <div class="topBar">
-        <button id="hidePaneButton" type="button" data-bind="click: hidePane">
+        <button id="hidePaneButton" type="button"
+          title="Hide Search Pane" data-bind="click: toggleSearchPane">
           <span class="glyphicon glyphicon-menu-hamburger"></span>
         </button>
       </div>
