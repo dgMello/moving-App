@@ -99,8 +99,8 @@ var viewModel = function() {
   // Create KO observable array for locatoins
   self.locationList = ko.observableArray([]);
   // Go through locations array and create a observable array.
-  locationsData.forEach(function(location){
-    self.locationList.push({name: location.title});
+  locationsData.forEach(function(location) {
+    self.locationList().push({name: location.title});
   });
 
   /*==== KO Functions ====*/
@@ -116,8 +116,22 @@ var viewModel = function() {
     }
   };
   // Filter search function
-  self.filterSearch = function() {
-    console.log("Clicked!");
+  self.filterSearch = function(searchLocation) {
+    if (self.searchLocation() == null) {
+      alert("Search field is empty.  Please enter search query.");
+    } else {
+      self.locationList([]);
+      $("#filterButton").attr({"title":"Reset Search", "data-bind":"click: resetSearch"});
+      $("#filterButton > span").remove();
+      $("#filterButton").text("Reset");
+      self.locationList().forEach(function(searchLocation) {
+      });
+    }
+  };
+  // Rest search function
+  self.resetSearch = function() {
+    Console.log("foo");
+    $("#filterButton").attr({"title":"Filter Search","data-bind":"click: filterSearch"});
   };
   // Select marker function
   self.selectMarker = function() {

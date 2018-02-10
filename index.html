@@ -15,7 +15,8 @@
       <div class="searchBarButton">
         <form id="searchForm">
           <input id="searchField" type="text" name="searchLocation"
-            placeholder="Enter Search Here" data-bind="">
+            placeholder="Enter Search Here" size="30"
+            data-bind="value: searchLocation">
           <button id="filterButton" type="button"
           title="Filter Search" data-bind="click: filterSearch">
             <span class="glyphicon glyphicon-filter"></span>
@@ -24,7 +25,8 @@
         </form>
       </div>
       <div class="searchList">
-        <ul id="locationList" data-bind="foreach: locationList">
+        <ul id="locationList" data-bind="foreach: locationList,
+          click: selectMarker">
           <li id="locationListName" data-bind="text: name"></li>
         </ul>
       </div>
