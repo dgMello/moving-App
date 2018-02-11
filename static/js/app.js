@@ -94,13 +94,23 @@ var viewModel = function() {
   markers.forEach(function(marker) {
     self.markerList.push(marker);
   });
-  // Create ko obersable boolean for search panel visibility.
+  // Create ko observable array for locations searched for.
+  self.searchList = ko.observableArray([]);
+  // Create ko observable boolean for search panel visibility.
   self.showSearchPanel = ko.observable(true);
+  // Create ko observable for showing Filter search button.
+  self.showFilterButton = ko.observable(true);
+  // Create ko observable for showing reset button.
+  self.showRestButton = ko.observable(false);
+  // Create ko observable for showing full location list.
+  self.showLocationList = ko.observable(true);
+  // Create ko observable for showing search list.
+  self.showSearchResultList = ko.observable(false);
   // Create KO observable array for locatoins
   self.locationList = ko.observableArray([]);
   // Go through locations array and create a observable array.
   locationsData.forEach(function(location) {
-    self.locationList().push({name: location.title});
+    self.locationList.push({name: location.title});
   });
 
   /*==== KO Functions ====*/
@@ -116,22 +126,42 @@ var viewModel = function() {
     }
   };
   // Filter search function
-  self.filterSearch = function(searchLocation) {
+  self.filterSearch = function() {
+    // Create var to keep length of location list.
+    var listLength = self.locationList().length;
+    // Check to see if anything has been entered into the search field.
     if (self.searchLocation() == null) {
+      // Alert user that nothing was empty.
       alert("Search field is empty.  Please enter search query.");
     } else {
-      self.locationList([]);
-      $("#filterButton").attr({"title":"Reset Search", "data-bind":"click: resetSearch"});
-      $("#filterButton > span").remove();
-      $("#filterButton").text("Reset");
-      self.locationList().forEach(function(searchLocation) {
-      });
+      // Loop through location list to see if they match your search query.
+      for (i = 0; i < listLength; i++) {
+        var searchQuery = self.searchLocation().toLowerCase();
+        var listLocation = self.locationList()[i].name.toLowerCase();
+        console.log(listLocation);
+        // If search query matches on one of the locations add it to your search array.
+        if (listLocation.indexOf(searchQuery) != -1) {
+          self.searchList.push(self.locationList()[i]);
+        };
+      };
+      // hide filter button
+      self.showFilterButton(false);
+      // show reset button
+      self.showRestButton(true);
+      // hide location list
+      self.showLocationList(false);
+      // show search results list
+      self.showSearchResultList(true);
     }
   };
   // Rest search function
   self.resetSearch = function() {
-    Console.log("foo");
-    $("#filterButton").attr({"title":"Filter Search","data-bind":"click: filterSearch"});
+    self.showFilterButton(true);
+    self.showRestButton(false);
+    self.showLocationList(true);
+    self.showSearchResultList(false);
+    self.searchList([]);
+    self.searchLocation(null);
   };
   // Select marker function
   self.selectMarker = function() {

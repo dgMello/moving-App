@@ -17,12 +17,6 @@ html, body {
   color: white;
   text-align: center;
 }
-#locationListName {
-  color: white;
-}
-#locationList {
-  list-style-type: none;
-}
 #hidePaneButton {
   margin-top: 7px;
   margin-bottom: 7px;
@@ -35,21 +29,23 @@ html, body {
 #searchField {
   width: 60%
 }
-#locationList {
+#locationList, #searchedlocationList {
   text-align: left;
   padding-left: 20px;
   margin: 1%;
+  list-style-type: none;
 }
-#locationList li:hover {
+#locationList li:hover, #searchedlocationList li:hover {
   text-decoration: underline;
   cursor: pointer;
 }
-#locationListName {
+.filterButton {
+  margin-left: 0px;
+}
+.locationListName {
   margin-top: 10%;
   margin-bottom: 10%;
-}
-#filterButton {
-  margin-left: 0px;
+  color: white;
 }
 .topBar {
   background-color: #595959;

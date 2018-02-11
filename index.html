@@ -17,17 +17,25 @@
           <input id="searchField" type="text" name="searchLocation"
             placeholder="Enter Search Here" size="30"
             data-bind="value: searchLocation">
-          <button id="filterButton" type="button"
-          title="Filter Search" data-bind="click: filterSearch">
+          <button id="filterButton" type="button" title="Filter Search"
+            data-bind="click: filterSearch, visible: showFilterButton">
             <span class="glyphicon glyphicon-filter"></span>
             Filter
+          </button>
+          <button id="resetButton" type="button" title="Reset Search"
+            data-bind="click: resetSearch, visible: showRestButton">
+            Reset
           </button>
         </form>
       </div>
       <div class="searchList">
         <ul id="locationList" data-bind="foreach: locationList,
-          click: selectMarker">
-          <li id="locationListName" data-bind="text: name"></li>
+          click: selectMarker, visible: showLocationList">
+          <li class="locationListName" data-bind="text: name"></li>
+        </ul>
+        <ul id="searchedlocationList" data-bind="foreach: searchList,
+          click: selectMarker, visible: showSearchResultList">
+          <li class="locationListName" data-bind="text: name"></li>
         </ul>
       </div>
     </div>
