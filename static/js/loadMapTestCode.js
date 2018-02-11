@@ -52,6 +52,7 @@
       marker.addListener('click', function() {
         populateInfoWindow(this, largeInfowindow);
       });
+      marker.addListener('click',toggleBounce);
       bounds.extend(markers[i].position);
     }
     // Extend the boundaries of the map for each marker

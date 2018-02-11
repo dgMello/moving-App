@@ -36,12 +36,12 @@ var locationsData = [
     location: {lat: 42.2677103, lng: -71.8440334}
   },
   {
-    title: 'Wormtown Brewery',
-    location: {lat: 42.2634965, lng: -71.7912016}
-  },
-  {
     title: 'Armsby Abbey',
     location: {lat: 42.2687583, lng: -71.8007635}
+  },
+  {
+    title: 'Wormtown Brewery',
+    location: {lat: 42.2634965, lng: -71.7912016}
   }
 ]
 
@@ -57,7 +57,7 @@ var viewModel = function() {
 
   /*==== Create Markers ====*/
 
-  // Create markers  // For loop to create and push markers
+ // For loop to create and push markers
   for (var i = 0; i < locationsData.length; i++) {
     // Get postion from locaton var
     var position = locationsData[i].location;
@@ -71,15 +71,17 @@ var viewModel = function() {
       animation: google.maps.Animation.DROP,
       id: i
     });
+    // Create an onclick event to open an infowindow at each marker.
+    marker.addListener('click', function() {
+      populateInfoWindow(this, largeInfowindow);
+    });
+    marker.addListener('click', function() {
+      toggleBounce(this, marker);
+    });
     // Push the markers to the map.
     markers.push(marker);
     // Extend the bounds with each marker.
     bounds.extend(markers[i].position);
-    // Create an onclick event to open an infowindow at each marker.
-    marker.addListener('click', function() {
-      populateInfoWindow(this, largeInfowindow);
-      marker.animation = google.maps.Animation.DROP;
-    });
   }
   // Fit the bounds.
   map.fitBounds(bounds);
@@ -138,7 +140,6 @@ var viewModel = function() {
       for (i = 0; i < listLength; i++) {
         var searchQuery = self.searchLocation().toLowerCase();
         var listLocation = self.locationList()[i].name.toLowerCase();
-        console.log(listLocation);
         // If search query matches on one of the locations add it to your search array.
         if (listLocation.indexOf(searchQuery) != -1) {
           self.searchList.push(self.locationList()[i]);
@@ -170,6 +171,7 @@ var viewModel = function() {
 
   /*==== functions ====*/
 
+  // Function to add info windows.
   function populateInfoWindow(marker, infowindow) {
     // Check to make sure the infowindow is not already opened on this marker.
     if (infowindow.marker != marker) {
@@ -177,9 +179,21 @@ var viewModel = function() {
       infowindow.setContent('<div>' + marker.title + '</div>');
       infowindow.open(map, marker);
       // Make sure the marker property is cleared if the infowindow is closed.
-      infowindow.addListener('closeclick',function(){
+      infowindow.addListener('closeclick',function() {
         infowindow.setMarker = null;
       });
     }
-  }
+  };
+  function toggleBounce(marker) {
+    if (marker.getAnimation() != null) {
+      marker.setAnimation(null);
+    } else {
+      for (i = 0; i < markers.length; i++) {
+        if (markers[i].animating == true) {
+          markers[i].setAnimation(null);
+        }
+      }
+      marker.setAnimation(google.maps.Animation.BOUNCE);
+    }
+  };
 };
