@@ -115,6 +115,8 @@ var viewModel = function() {
   locationsData.forEach(function(location) {
     self.locationList.push({name: location.title});
   });
+  // Create ko observable for checking if item is selected.
+  self.itemSelected = ko.observable(false);
 
   /*==== KO Functions ====*/
 
@@ -174,10 +176,13 @@ var viewModel = function() {
       markers[i].setMap(map);
       bounds.extend(markers[i].position);
     }
+    // Reset the bounds
+    map.fitBounds(bounds);
   };
   // Select marker function
   self.selectMarker = function() {
     console.log("Clicked!");
+    self.itemSelected(true);
   };
 
   /*==== Google maps functions ====*/

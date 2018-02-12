@@ -30,11 +30,13 @@
       </div>
       <div class="searchList">
         <ul id="locationList" data-bind="foreach: locationList,
-          click: selectMarker, visible: showLocationList">
+          click: selectMarker, visible: showLocationList,
+          style: { textDecoration: 'underline' }">
           <li class="locationListName" data-bind="text: name"></li>
         </ul>
         <ul id="searchedlocationList" data-bind="foreach: searchList,
-          click: selectMarker, visible: showSearchResultList">
+          click: selectMarker, visible: showSearchResultList,
+          style: { textDecoration: 'underline' }">
           <li class="locationListName" data-bind="text: name"></li>
         </ul>
       </div>
