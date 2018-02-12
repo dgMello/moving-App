@@ -141,10 +141,15 @@ var viewModel = function() {
       for (i = 0; i < listLength; i++) {
         var searchQuery = self.searchLocation().toLowerCase();
         var listLocation = self.locationList()[i].name.toLowerCase();
+        var markerSearch = markers[i].title.toLowerCase();
         // If search query matches on one of the locations add it to your search array.
         if (listLocation.indexOf(searchQuery) != -1) {
           self.searchList.push(self.locationList()[i]);
         };
+        // Check each marker to see if they match search query.
+        if (markerSearch.indexOf(searchQuery) == -1) {
+          markers[i].setMap(null);
+        }
       };
       // hide filter button
       self.showFilterButton(false);
@@ -164,6 +169,11 @@ var viewModel = function() {
     self.showSearchResultList(false);
     self.searchList([]);
     self.searchLocation(null);
+    // Add markers back to map.
+    for (var i = 0; i < markers.length; i++) {
+      markers[i].setMap(map);
+      bounds.extend(markers[i].position);
+    }
   };
   // Select marker function
   self.selectMarker = function() {
@@ -180,7 +190,8 @@ var viewModel = function() {
       infowindow.marker = marker;
       // Make sure the marker property is cleared if the infowindow is closed.
       infowindow.addListener('closeclick',function() {
-        infowindow.setMarker = null;
+        infowindow.marker = null;
+        marker.setAnimation(null);
       });
       var streetViewService = new google.maps.StreetViewService();
       var radius = 50;
@@ -199,7 +210,7 @@ var viewModel = function() {
             position: nearStreetViewLocation,
             pov: {
               heading: heading,
-              pitch: 30
+              pitch: 25
             }
           };
           var panorama = new google.maps.StreetViewPanorama(
