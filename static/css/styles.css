@@ -39,6 +39,10 @@ html, body {
   text-decoration: underline;
   cursor: pointer;
 }
+#streetImage {
+  width: 200px;
+  height: 200px;
+}
 .filterButton {
   margin-left: 0px;
 }

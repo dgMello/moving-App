@@ -1,7 +1,7 @@
 /* ======= Global Variables ======*/
 var map;
 var largeInfowindow;
-var bounds
+var bounds;
 /* ======= Google Map ======= */
 // Function to initilize map.
 function initMap() {
@@ -32,8 +32,8 @@ var locationsData = [
     location: {lat: 42.2607026, lng: -71.8029641}
   },
   {
-    title: 'Worcester State',
-    location: {lat: 42.2677103, lng: -71.8440334}
+    title: 'The Boynton Restaurant',
+    location: {lat: 42.2708901, lng: -71.8074663}
   },
   {
     title: 'Armsby Abbey',
@@ -75,6 +75,7 @@ var viewModel = function() {
     marker.addListener('click', function() {
       populateInfoWindow(this, largeInfowindow);
     });
+    // Add event listener to toggle bounce animation when marker is clicked.
     marker.addListener('click', function() {
       toggleBounce(this, marker);
     });
@@ -169,25 +170,59 @@ var viewModel = function() {
     console.log("Clicked!");
   };
 
-  /*==== functions ====*/
+  /*==== Google maps functions ====*/
 
   // Function to add info windows.
   function populateInfoWindow(marker, infowindow) {
     // Check to make sure the infowindow is not already opened on this marker.
     if (infowindow.marker != marker) {
+      infowindow.setContent('');
       infowindow.marker = marker;
-      infowindow.setContent('<div>' + marker.title + '</div>');
-      infowindow.open(map, marker);
       // Make sure the marker property is cleared if the infowindow is closed.
       infowindow.addListener('closeclick',function() {
         infowindow.setMarker = null;
       });
+      var streetViewService = new google.maps.StreetViewService();
+      var radius = 50;
+      // This function gets the street view panaorma of each marker and adds
+      // it to the infowinow.
+      function getStreetView(data, status) {
+        // Check status.
+        if (status == google.maps.StreetViewStatus.OK) {
+          // Get the lat long
+          var nearStreetViewLocation = data.location.latLng;
+          // Calculate the header us the comput heading function.
+          var heading = google.maps.geometry.spherical.computeHeading(
+            nearStreetViewLocation, marker.position);
+          infowindow.setContent('<div>' + marker.title + '</div><div id="streetImage"></div>');
+          var panoramaOptions = {
+            position: nearStreetViewLocation,
+            pov: {
+              heading: heading,
+              pitch: 30
+            }
+          };
+          var panorama = new google.maps.StreetViewPanorama(
+            document.getElementById('streetImage'), panoramaOptions);
+        } else {
+            infowindow.setContent('<div>' + marker.title + '</div>' +
+              '<div>No Street View Found</div>');
+        }
+      }
+      // The streeview service will find the streetview image within the radius
+      // variable create above (50).
+      streetViewService.getPanoramaByLocation(marker.position, radius,
+        getStreetView);
+      // Open the infowindow on the correct marker.
+      infowindow.open(map, marker);
     }
-  };
+  }
+  // Function for toggle the bounce animation for any marker that is clicked.
   function toggleBounce(marker) {
     if (marker.getAnimation() != null) {
       marker.setAnimation(null);
     } else {
+      // Check to see if any other markers are bouncing and remove bounce animation.
       for (i = 0; i < markers.length; i++) {
         if (markers[i].animating == true) {
           markers[i].setAnimation(null);
