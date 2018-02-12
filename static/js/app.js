@@ -88,17 +88,8 @@ var viewModel = function() {
   map.fitBounds(bounds);
 
   /*==== ko observables ====*/
-
   // Create ko observable for search input.
   self.searchLocation = ko.observable();
-  // Create KO observable array for markers
-  self.markerList = ko.observableArray([]);
-  // Push markers to marker list observable array.
-  markers.forEach(function(marker) {
-    self.markerList.push(marker);
-  });
-  // Create ko observable array for locations searched for.
-  self.searchList = ko.observableArray([]);
   // Create ko observable boolean for search panel visibility.
   self.showSearchPanel = ko.observable(true);
   // Create ko observable for showing Filter search button.
@@ -117,6 +108,8 @@ var viewModel = function() {
   });
   // Create ko observable for checking if item is selected.
   self.itemSelected = ko.observable(false);
+  // Test observable *Remove after test complete.*
+  self.currentProfit = ko.observable(false);
 
   /*==== KO Functions ====*/
 
@@ -132,7 +125,6 @@ var viewModel = function() {
   };
   // Filter search function
   self.filterSearch = function() {
-    // Create var to keep length of location list.
     var listLength = self.locationList().length;
     // Check to see if anything has been entered into the search field.
     if (self.searchLocation() == null) {
@@ -140,36 +132,35 @@ var viewModel = function() {
       alert("Search field is empty.  Please enter search query.");
     } else {
       // Loop through location list to see if they match your search query.
-      for (i = 0; i < listLength; i++) {
+      for (i = listLength; i > 0; i--) {
         var searchQuery = self.searchLocation().toLowerCase();
-        var listLocation = self.locationList()[i].name.toLowerCase();
-        var markerSearch = markers[i].title.toLowerCase();
+        var listLocation = self.locationList()[i -1].name.toLowerCase();
+        var markerSearch = markers[i - 1].title.toLowerCase();
         // If search query matches on one of the locations add it to your search array.
-        if (listLocation.indexOf(searchQuery) != -1) {
-          self.searchList.push(self.locationList()[i]);
+        if (listLocation.indexOf(searchQuery) == -1) {
+          self.locationList.remove(self.locationList()[i - 1]);
         };
         // Check each marker to see if they match search query.
         if (markerSearch.indexOf(searchQuery) == -1) {
-          markers[i].setMap(null);
+          markers[i - 1].setMap(null);
         }
       };
       // hide filter button
       self.showFilterButton(false);
       // show reset button
       self.showRestButton(true);
-      // hide location list
-      self.showLocationList(false);
-      // show search results list
-      self.showSearchResultList(true);
     }
   };
   // Rest search function
   self.resetSearch = function() {
+    self.locationList([]);
+    locationsData.forEach(function(location) {
+      self.locationList.push({name: location.title});
+    });
     self.showFilterButton(true);
     self.showRestButton(false);
     self.showLocationList(true);
     self.showSearchResultList(false);
-    self.searchList([]);
     self.searchLocation(null);
     // Add markers back to map.
     for (var i = 0; i < markers.length; i++) {
@@ -182,6 +173,8 @@ var viewModel = function() {
   // Select marker function
   self.selectMarker = function() {
     console.log("Clicked!");
+    console.log(self.locationList().name);
+    self.currentProfit(true);
     self.itemSelected(true);
   };
 

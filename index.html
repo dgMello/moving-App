@@ -11,12 +11,12 @@
   </head>
   <body>
     <div id="searchPanel" data-bind="visible: showSearchPanel">
-      <h3>Worcester Locations</h3>
+      <h3 data-bind= "style: { textDecoration: currentProfit() == true ? 'underline' : 'none' }">Worcester Locations</h3>
       <div class="searchBarButton">
         <form id="searchForm">
           <input id="searchField" type="text" name="searchLocation"
             placeholder="Enter Search Here" size="30"
-            data-bind="value: searchLocation">
+            data-bind="textInput: searchLocation">
           <button id="filterButton" type="button" title="Filter Search"
             data-bind="click: filterSearch, visible: showFilterButton">
             <span class="glyphicon glyphicon-filter"></span>
@@ -31,12 +31,7 @@
       <div class="searchList">
         <ul id="locationList" data-bind="foreach: locationList,
           click: selectMarker, visible: showLocationList,
-          style: { textDecoration: 'underline' }">
-          <li class="locationListName" data-bind="text: name"></li>
-        </ul>
-        <ul id="searchedlocationList" data-bind="foreach: searchList,
-          click: selectMarker, visible: showSearchResultList,
-          style: { textDecoration: 'underline' }">
+          style: { textDecoration: currentProfit() == true ? 'underline' : 'none' }">
           <li class="locationListName" data-bind="text: name"></li>
         </ul>
       </div>
