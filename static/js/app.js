@@ -6,7 +6,7 @@ var bounds;
 // Function to initilize map.
 function initMap() {
   // Create mapElem
-  this.mapElem = document.getElementById('map');
+  this.mapElem = document.getElementById("map");
   // Create initial infowdinow variable
   largeInfowindow = new google.maps.InfoWindow();
   // Create initial bounds variable
@@ -24,23 +24,23 @@ function initMap() {
 // Variable contaning locations info.
 var locationsData = [
   {
-    title: 'Worcester Art Museum',
+    title: "Worcester Art Museum",
     location: {lat: 42.2730221, lng: -71.8019689}
   },
   {
-    title: 'Hanover Theatre',
+    title: "Hanover Theatre",
     location: {lat: 42.2607026, lng: -71.8029641}
   },
   {
-    title: 'The Boynton Restaurant & Spirits',
+    title: "The Boynton Restaurant & Spirits",
     location: {lat: 42.2708901, lng: -71.8074663}
   },
   {
-    title: 'Armsby Abbey',
+    title: "Armsby Abbey",
     location: {lat: 42.2687583, lng: -71.8007635}
   },
   {
-    title: 'Wormtown Brewery',
+    title: "Wormtown Brewery",
     location: {lat: 42.2634965, lng: -71.7912016}
   }
 ]
@@ -72,11 +72,11 @@ var viewModel = function() {
       id: i
     });
     // Create an onclick event to open an infowindow at each marker.
-    marker.addListener('click', function() {
+    marker.addListener("click", function() {
       populateInfoWindow(this, largeInfowindow);
     });
     // Add event listener to toggle bounce animation when marker is clicked.
-    marker.addListener('click', function() {
+    marker.addListener("click", function() {
       toggleBounce(this, marker);
     });
     // Push the markers to the map.
@@ -174,60 +174,91 @@ var viewModel = function() {
 
   // Function to add info windows.
   function populateInfoWindow(marker, infowindow) {
-    var locationPictureSearch = locationsData[0].title;
-    var latLng = locationsData[0].location.lat + "," + locationsData[0].location.lng;
-    var fourSquareClientId = "KNCUUURDLALARYLELMI4ZNRGOLPX44XYMPCOWRTWWOVDN4WA";
-    var fourSquareClientSecret = "YOEN04J05A1VH4JIGUBUGSWOGYMOEK4PGIOEXHRSA43VSIAC";
-    var fourSquareUrl =
-      ("https://api.foursquare.com/v2/venues/search?limit=1&query=" + "&" +
-      locationPictureSearch + "&near=" + latLng + "&client_id=" +
-      fourSquareClientId + "&client_secret=" + fourSquareClientSecret +
-      "&v=20180212")
-    var fourSquarePictureUrl = ("https://api.foursquare.com/v2/venues/")
-
-    var venueID;
-    // Ajax request to get venue ID. This will be used to get a photo.
-    $.getJSON(fourSquareUrl, function(data) {
-      venueID = data.response.venues[0].id;
-      var fourSquarePictureUrl = (fourSquarePictureUrl + venueID +
-        "photos?limit=1" + "&client_id=" + fourSquareClientId +
-        "&client_secret=" + fourSquareClientSecret +"&v=20180212")
-        console.log(fourSquarePictureUrl);
-        // Insert second ajax request here.
-    });
-    console.log(venueID);
-
-
     // Check to make sure the infowindow is not already opened on this marker.
     if (infowindow.marker != marker) {
-      infowindow.setContent('');
+      infowindow.setContent("");
       infowindow.marker = marker;
       // Make sure the marker property is cleared if the infowindow is closed.
-      infowindow.addListener('closeclick',function() {
+      infowindow.addListener("closeclick",function() {
         infowindow.marker = null;
         marker.setAnimation(null);
       });
+      getFoursqurePicture(marker);
       // This function gets the street view panaorma of each marker and adds
       // it to the infowinow.
-      function getFlickrPicture(data, status) {
-        var fourSquareUrl = ("https://api.foursquare.com/v2/venues/search?limit=1&query=" + location + "&near=" + latLng)
-        // Check status.
-        if (status == google.maps.StreetViewStatus.OK) {
-          // Get the lat long
-          var nearStreetViewLocation = data.location.latLng;
-          // Calculate the header us the comput heading function.
-          infowindow.setContent('<div>' + marker.title + '</div><div id="streetImage"></div>');
-
-          var panorama = new google.maps.StreetViewPanorama(
-            document.getElementById('streetImage'), panoramaOptions);
-        } else {
-            infowindow.setContent('<div>' + marker.title + '</div>' +
-              '<div>No Photo Found</div>');
-        }
+      function getFoursqurePicture() {
+        // Get Location title fropm clicked marker.
+        var locationPictureSearch = marker.title;
+        // Get Location latlng fropm clicked marker.
+        var latLng = marker.position.lat() + "," + marker.position.lng();
+        var fourSquareClientId = "KNCUUURDLALARYLELMI4ZNRGOLPX44XYMPCOWRTWWOVDN4WA";
+        var fourSquareClientSecret = "YOEN04J05A1VH4JIGUBUGSWOGYMOEK4PGIOEXHRSA43VSIAC";
+        // Create foursqure url to send.
+        var fourSquareUrl =
+          ("https://api.foursquare.com/v2/venues/search?limit=1&query=" + "&" +
+          locationPictureSearch + "&near=" + latLng + "&client_id=" +
+          fourSquareClientId + "&client_secret=" + fourSquareClientSecret +
+          "&v=20180212")
+        // Ajax request to get venue ID. This will be used to get a photo.
+        $.getJSON(fourSquareUrl, function(data) {
+          // Check that the repsonse from sever is OK.
+          if (data.meta.code == 200) {
+            // Check that server found any matches to your GET request.
+            if (data.response.venues.length > 0) {
+              var venueID = data.response.venues[0].id;
+              var fourSquarePictureUrl = ("https://api.foursquare.com/v2/venues/"
+                + venueID + "/photos?limit=1" + "&client_id=" +
+                fourSquareClientId + "&client_secret=" + fourSquareClientSecret
+                +"&v=20180212")
+                // Second ajax will use Venue ID from first ajax request to get pictures.
+              $.getJSON(fourSquarePictureUrl, function(data) {
+                // Check that 200 code was received.
+                if (data.meta.code == 200) {
+                  // Check to see if any photos were returned from server
+                  if (data.response.photos.count > 0) {
+                    // Get the photo array.
+                    var photoData = data.response.photos.items[0];
+                    // Get the prefix of the photo url.
+                    var urlPrefix = photoData.prefix;
+                    // Get the suffix of the photo url.
+                    var urlSuffix = photoData.suffix;
+                    // crete the photo uRL using the prefix, suffix and adding a picture size.
+                    var photoURL = (urlPrefix + "150x150" + urlSuffix);
+                    // Add the
+                    infowindow.setContent("<div><p id='infoWindowTitle'>" +
+                      marker.title + "</p></div>" +
+                      "<div><img id='infoWindowPhoto' src='" + photoURL + 
+                      "'></div><div>Photo from Foursquare");
+                  } else {
+                    // If no photos are found inform user.
+                    infowindow.setContent("<div class='infoWindow'>" +
+                      marker.title + "</div>" + "<div>No Photo Found.</div>");
+                  }
+                } else {
+                  // Provide the error code to the user if there is an error contacting the server.
+                  infowindow.setContent("<div>" + marker.title + "</div>" +
+                    "<div>Error Retrieving Venue Photo. Error code: " +
+                    data.meta.code + "</div>");
+                }
+              });
+            } else {
+              // If no venue is found at location inform user.
+              infowindow.setContent("<div>" + marker.title + "</div>" +
+                "<div>Venue cannot be found on Foursquare.</div>");
+            }
+          } else {
+            // Provide the error code to the user if there is an error contacting the server.
+            infowindow.setContent("<div>" + marker.title + "</div>" +
+              "<div>Error Retrieving Venue ID. Error code: " + data.meta.code +
+              "</div>");
+          }
+        });
+        infowindow.setContent("<div>" + marker.title + "</div>" +
+          "<div>No Photo Found</div>");
       }
+    }
       // Open the infowindow on the correct marker.
       infowindow.open(map, marker);
-    }
   }
   // Function for toggle the bounce animation for any marker that is clicked.
   function toggleBounce(marker) {
