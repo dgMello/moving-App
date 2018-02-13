@@ -17,25 +17,24 @@
           <input id="searchField" type="text" name="searchLocation"
             placeholder="Enter Search Here" size="30"
             data-bind="textInput: searchLocation">
-          <button id="filterButton" type="button" title="Filter Search"
-            data-bind="click: filterResetSearch">
+          <button id="filterButton" type="button"
+            data-bind="click: filterResetSearch, attr: { title: filterButtonTitle() }">
             <span class="glyphicon glyphicon-filter"></span>
             <p id="filterButtonText" data-bind="text: filterButtonText"></p>
           </button>
         </form>
       </div>
       <div class="searchList">
-        <ul id="locationList" data-bind="foreach: locationList,
-          click: selectMarker, style: { textDecoration: currentProfit() ==
-            true ? 'underline' : 'none' }">
-          <li class="locationListName" data-bind="text: name"></li>
+        <ul id="locationList" data-bind="foreach: locationList">
+          <li class="locationListName" data-bind="text: name,
+            click: $parent.selectMarker"></li>
         </ul>
       </div>
     </div>
     <section class="mainContent">
       <div class="topBar">
         <button id="hidePaneButton" type="button" data-bind="click: toggleSearchPane,
-          attr: { title: searchPaneButton() }">
+          attr: { title: searchPaneButtonTitle() }">
           <span class="glyphicon glyphicon-menu-hamburger"></span>
         </button>
       </div>

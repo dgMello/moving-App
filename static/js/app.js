@@ -103,7 +103,9 @@ var viewModel = function() {
   // Create ko observable for filter button text.
   self.filterButtonText = ko.observable("Filter");
   // Create ko observable for searchpanebutton.
-  self.searchPaneButton = ko.observable("Hide Search Pane")
+  self.searchPaneButtonTitle = ko.observable("Hide Search Pane")
+  // Create ko obervable for filter button.
+  self.filterButtonTitle = ko.observable("Filter Search")
   // Test observable *Remove after test complete.*
   self.currentProfit = ko.observable(false);
 
@@ -114,10 +116,10 @@ var viewModel = function() {
   self.toggleSearchPane = function() {
     if (self.showSearchPanel()) {
       self.showSearchPanel(false);
-      self.searchPaneButton("Show Search Pane");
+      self.searchPaneButtonTitle("Show Search Pane");
     } else {
       self.showSearchPanel(true);
-      self.searchPaneButton("Hide Search Pane");
+      self.searchPaneButtonTitle("Hide Search Pane");
     }
   };
   // Filter search function
@@ -146,6 +148,7 @@ var viewModel = function() {
         };
         // hide filter button
         self.filterButtonText("Reset")
+        self.filterButtonTitle("Reset Search")
       }
     } else {
       // Empty location list.
@@ -155,6 +158,7 @@ var viewModel = function() {
         self.locationList.push({name: location.title});
       });
       self.filterButtonText("Filter")
+      self.filterButtonTitle("Filter Search")
       self.searchLocation(null);
       // Add markers back to map.
       for (var i = 0; i < markers.length; i++) {
@@ -168,7 +172,7 @@ var viewModel = function() {
   // Select marker function
   self.selectMarker = function() {
     console.log("Clicked!");
-    console.log(self.locationList().name);
+    console.log(self.locationList());
     self.currentProfit(true);
     self.itemSelected(true);
   };
