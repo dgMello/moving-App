@@ -32,7 +32,7 @@ var locationsData = [
     location: {lat: 42.2607026, lng: -71.8029641}
   },
   {
-    title: 'The Boynton Restaurant',
+    title: 'The Boynton Restaurant & Spirits',
     location: {lat: 42.2708901, lng: -71.8074663}
   },
   {
@@ -174,6 +174,30 @@ var viewModel = function() {
 
   // Function to add info windows.
   function populateInfoWindow(marker, infowindow) {
+    var locationPictureSearch = locationsData[0].title;
+    var latLng = locationsData[0].location.lat + "," + locationsData[0].location.lng;
+    var fourSquareClientId = "KNCUUURDLALARYLELMI4ZNRGOLPX44XYMPCOWRTWWOVDN4WA";
+    var fourSquareClientSecret = "YOEN04J05A1VH4JIGUBUGSWOGYMOEK4PGIOEXHRSA43VSIAC";
+    var fourSquareUrl =
+      ("https://api.foursquare.com/v2/venues/search?limit=1&query=" + "&" +
+      locationPictureSearch + "&near=" + latLng + "&client_id=" +
+      fourSquareClientId + "&client_secret=" + fourSquareClientSecret +
+      "&v=20180212")
+    var fourSquarePictureUrl = ("https://api.foursquare.com/v2/venues/")
+
+    var venueID;
+    // Ajax request to get venue ID. This will be used to get a photo.
+    $.getJSON(fourSquareUrl, function(data) {
+      venueID = data.response.venues[0].id;
+      var fourSquarePictureUrl = (fourSquarePictureUrl + venueID +
+        "photos?limit=1" + "&client_id=" + fourSquareClientId +
+        "&client_secret=" + fourSquareClientSecret +"&v=20180212")
+        console.log(fourSquarePictureUrl);
+        // Insert second ajax request here.
+    });
+    console.log(venueID);
+
+
     // Check to make sure the infowindow is not already opened on this marker.
     if (infowindow.marker != marker) {
       infowindow.setContent('');
@@ -183,37 +207,24 @@ var viewModel = function() {
         infowindow.marker = null;
         marker.setAnimation(null);
       });
-      var streetViewService = new google.maps.StreetViewService();
-      var radius = 50;
       // This function gets the street view panaorma of each marker and adds
       // it to the infowinow.
-      function getStreetView(data, status) {
+      function getFlickrPicture(data, status) {
+        var fourSquareUrl = ("https://api.foursquare.com/v2/venues/search?limit=1&query=" + location + "&near=" + latLng)
         // Check status.
         if (status == google.maps.StreetViewStatus.OK) {
           // Get the lat long
           var nearStreetViewLocation = data.location.latLng;
           // Calculate the header us the comput heading function.
-          var heading = google.maps.geometry.spherical.computeHeading(
-            nearStreetViewLocation, marker.position);
           infowindow.setContent('<div>' + marker.title + '</div><div id="streetImage"></div>');
-          var panoramaOptions = {
-            position: nearStreetViewLocation,
-            pov: {
-              heading: heading,
-              pitch: 25
-            }
-          };
+
           var panorama = new google.maps.StreetViewPanorama(
             document.getElementById('streetImage'), panoramaOptions);
         } else {
             infowindow.setContent('<div>' + marker.title + '</div>' +
-              '<div>No Street View Found</div>');
+              '<div>No Photo Found</div>');
         }
       }
-      // The streeview service will find the streetview image within the radius
-      // variable create above (50).
-      streetViewService.getPanoramaByLocation(marker.position, radius,
-        getStreetView);
       // Open the infowindow on the correct marker.
       infowindow.open(map, marker);
     }
