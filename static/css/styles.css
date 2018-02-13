@@ -25,9 +25,10 @@ html, body {
 }
 #searchForm {
   margin-right: 0px;
+  display: flex;
 }
 #searchField {
-  width: 60%
+  width: 70%
 }
 #locationList, #searchedlocationList {
   text-align: left;
@@ -43,8 +44,21 @@ html, body {
   width: 200px;
   height: 200px;
 }
-.filterButton {
+#filterButton {
+  display: flex;
   margin-left: 0px;
+  margin-right: 0px;
+  padding-left: 5px;
+  padding-right: 0px;
+  width: 30%;
+}
+#filterButtonText {
+  margin: 0px;
+  padding-left: 6px;
+}
+.glyphicon glyphicon-filter {
+  margin-left: 1px;
+  margin-right: 3px;
 }
 .locationListName {
   margin-top: 10%;

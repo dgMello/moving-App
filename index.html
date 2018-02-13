@@ -18,20 +18,16 @@
             placeholder="Enter Search Here" size="30"
             data-bind="textInput: searchLocation">
           <button id="filterButton" type="button" title="Filter Search"
-            data-bind="click: filterSearch, visible: showFilterButton">
+            data-bind="click: filterResetSearch">
             <span class="glyphicon glyphicon-filter"></span>
-            Filter
-          </button>
-          <button id="resetButton" type="button" title="Reset Search"
-            data-bind="click: resetSearch, visible: showRestButton">
-            Reset
+            <p id="filterButtonText" data-bind="text: filterButtonText"></p>
           </button>
         </form>
       </div>
       <div class="searchList">
         <ul id="locationList" data-bind="foreach: locationList,
-          click: selectMarker, visible: showLocationList,
-          style: { textDecoration: currentProfit() == true ? 'underline' : 'none' }">
+          click: selectMarker, style: { textDecoration: currentProfit() ==
+            true ? 'underline' : 'none' }">
           <li class="locationListName" data-bind="text: name"></li>
         </ul>
       </div>
