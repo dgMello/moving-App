@@ -11,7 +11,7 @@
   </head>
   <body>
     <div id="searchPanel" data-bind="visible: showSearchPanel">
-      <h3 data-bind= "style: { textDecoration: currentProfit() == true ? 'underline' : 'none' }">Worcester Locations</h3>
+      <h3>Worcester Locations</h3>
       <div class="searchBarButton">
         <form id="searchForm">
           <input id="searchField" type="text" name="searchLocation"
@@ -27,7 +27,7 @@
       <div class="searchList">
         <ul id="locationList" data-bind="foreach: locationList">
           <li class="locationListName" data-bind="text: name,
-            click: $parent.selectMarker"></li>
+            click: $parent.selectMarker, css: $parent.changeUnderline()"></li>
         </ul>
       </div>
     </div>

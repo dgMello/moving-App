@@ -80,3 +80,9 @@ html, body {
 .mainContent {
   height: 95.7%;
 }
+.clicked {
+  text-decoration: underline;
+}
+.unclicked {
+  text-decoration: none;
+}

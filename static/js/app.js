@@ -172,10 +172,23 @@ var viewModel = function() {
   // Select marker function
   self.selectMarker = function() {
     console.log("Clicked!");
-    console.log(self.locationList());
-    self.currentProfit(true);
-    self.itemSelected(true);
+    if (self.currentProfit() == true) {
+      self.currentProfit(false);
+      console.log(self.locationList().name);
+
+    } else {
+      self.currentProfit(true);
+    }
   };
+
+  // Function to change list items to under or not underlined.
+  self.changeUnderline = function() {
+    if (self.currentProfit() == true) {
+      return 'clicked';
+    } else {
+      return 'unclicked';
+    }
+  }
 
   /*==== Google maps functions ====*/
 
