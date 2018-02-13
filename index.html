@@ -34,8 +34,8 @@
     </div>
     <section class="mainContent">
       <div class="topBar">
-        <button id="hidePaneButton" type="button"
-          title="Hide Search Pane" data-bind="click: toggleSearchPane">
+        <button id="hidePaneButton" type="button" data-bind="click: toggleSearchPane,
+          attr: { title: searchPaneButton() }">
           <span class="glyphicon glyphicon-menu-hamburger"></span>
         </button>
       </div>

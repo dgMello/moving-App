@@ -102,8 +102,11 @@ var viewModel = function() {
   self.itemSelected = ko.observable(false);
   // Create ko observable for filter button text.
   self.filterButtonText = ko.observable("Filter");
+  // Create ko observable for searchpanebutton.
+  self.searchPaneButton = ko.observable("Hide Search Pane")
   // Test observable *Remove after test complete.*
   self.currentProfit = ko.observable(false);
+
 
   /*==== KO Functions ====*/
 
@@ -111,10 +114,10 @@ var viewModel = function() {
   self.toggleSearchPane = function() {
     if (self.showSearchPanel()) {
       self.showSearchPanel(false);
-      $("#hidePaneButton").attr("title","Show Search Pane");
+      self.searchPaneButton("Show Search Pane");
     } else {
       self.showSearchPanel(true);
-      $("#hidePaneButton").attr("title","Hide Search Pane");
+      self.searchPaneButton("Hide Search Pane");
     }
   };
   // Filter search function
@@ -205,7 +208,9 @@ var viewModel = function() {
           if (data.meta.code == 200) {
             // Check that server found any matches to your GET request.
             if (data.response.venues.length > 0) {
+              // Get the venue ID from the response.
               var venueID = data.response.venues[0].id;
+              // Create new URL for the photo request.
               var fourSquarePictureUrl = ("https://api.foursquare.com/v2/venues/"
                 + venueID + "/photos?limit=1" + "&client_id=" +
                 fourSquareClientId + "&client_secret=" + fourSquareClientSecret
@@ -227,7 +232,7 @@ var viewModel = function() {
                     // Add the
                     infowindow.setContent("<div><p id='infoWindowTitle'>" +
                       marker.title + "</p></div>" +
-                      "<div><img id='infoWindowPhoto' src='" + photoURL + 
+                      "<div><img id='infoWindowPhoto' src='" + photoURL +
                       "'></div><div>Photo from Foursquare");
                   } else {
                     // If no photos are found inform user.
@@ -253,8 +258,6 @@ var viewModel = function() {
               "</div>");
           }
         });
-        infowindow.setContent("<div>" + marker.title + "</div>" +
-          "<div>No Photo Found</div>");
       }
     }
       // Open the infowindow on the correct marker.
