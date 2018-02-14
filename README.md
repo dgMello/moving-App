@@ -39,4 +39,6 @@ https://www.w3schools.com
 
 Third party photos acquired from Foursquare.
 
-<h2>Author: Doug Mello Version: 1.</h2>
+<h2>Author: Doug Mello</h2>
+
+<h2>Version: 1.</h2>
