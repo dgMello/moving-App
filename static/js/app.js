@@ -18,7 +18,7 @@ function initMap() {
   });
 
   ko.applyBindings(new viewModel());
-};
+}
 
 // Variable contaning locations info.
 var locationsData = [
@@ -47,7 +47,7 @@ var locationsData = [
     location: {lat: 42.2634965, lng: -71.7912016},
     id: "location5"
   }
-]
+];
 
 
 /* ======= ViewModel ======= */
@@ -245,13 +245,10 @@ var viewModel = function() {
                     var photoURL = (urlPrefix + "150x150" + urlSuffix);
                     // Add the
                     infowindow.setContent("<div><p id='infoWindowTitle'>" +
-                      marker.title + "</p></div>" +
-                      "<div><img id='infoWindowPhoto' src='" + photoURL +
-                      "'></div><div>Photo from Foursquare");
+                      marker.title + "</p></div>" + "<div><img id='infoWindowPhoto' src='" + photoURL +"'></div><div>Photo from Foursquare");
                   } else {
                     // If no photos are found inform user.
-                    infowindow.setContent("<div class='infoWindow'>" +
-                      marker.title + "</div>" + "<div>No Photo Found.</div>");
+                    infowindow.setContent("<div class='infoWindow'>" + marker.title + "</div>" + "<div>No Photo Found.</div>");
                   }
                 } else {
                   // Provide the error code to the user if there is an error contacting the server.
@@ -279,16 +276,16 @@ var viewModel = function() {
   }
   // Function for toggle the bounce animation for any marker that is clicked.
   function toggleBounce(marker) {
-    if (marker.getAnimation() != null) {
+    if (marker.getAnimation() !== null) {
       marker.setAnimation(null);
     } else {
       // Check to see if any other markers are bouncing and remove bounce animation.
       for (i = 0; i < markers.length; i++) {
-        if (markers[i].animating == true) {
+        if (markers[i].animating === true) {
           markers[i].setAnimation(null);
         }
       }
       marker.setAnimation(google.maps.Animation.BOUNCE);
     }
   }
-}
+};
