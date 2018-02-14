@@ -25,23 +25,28 @@ function initMap() {
 var locationsData = [
   {
     title: "Worcester Art Museum",
-    location: {lat: 42.2730221, lng: -71.8019689}
+    location: {lat: 42.2730221, lng: -71.8019689},
+    id: "location1"
   },
   {
     title: "Hanover Theatre",
-    location: {lat: 42.2607026, lng: -71.8029641}
+    location: {lat: 42.2607026, lng: -71.8029641},
+    id: "location2"
   },
   {
     title: "The Boynton Restaurant & Spirits",
-    location: {lat: 42.2708901, lng: -71.8074663}
+    location: {lat: 42.2708901, lng: -71.8074663},
+    id: "location3"
   },
   {
     title: "Armsby Abbey",
-    location: {lat: 42.2687583, lng: -71.8007635}
+    location: {lat: 42.2687583, lng: -71.8007635},
+    id: "location4"
   },
   {
     title: "Wormtown Brewery",
-    location: {lat: 42.2634965, lng: -71.7912016}
+    location: {lat: 42.2634965, lng: -71.7912016},
+    id: "location5"
   }
 ]
 
@@ -96,7 +101,7 @@ var viewModel = function() {
   self.locationList = ko.observableArray([]);
   // Go through locations array and create a observable array.
   locationsData.forEach(function(location) {
-    self.locationList.push({name: location.title});
+    self.locationList.push({name: location.title, id: location.id});
   });
   // Create ko observable for checking if item is selected.
   self.itemSelected = ko.observable(false);
@@ -108,7 +113,6 @@ var viewModel = function() {
   self.filterButtonTitle = ko.observable("Filter Search")
   // Create ko obervable for checking to see if list item is checked.
   self.isClicked = ko.observable(false);
-
 
   /*==== KO Functions ====*/
 
@@ -155,7 +159,7 @@ var viewModel = function() {
       self.locationList([]);
       // Re add items to locations list array.
       locationsData.forEach(function(location) {
-        self.locationList.push({name: location.title});
+        self.locationList.push({name: location.title, id: location.id});
       });
       self.filterButtonText("Filter")
       self.filterButtonTitle("Filter Search")
@@ -171,9 +175,13 @@ var viewModel = function() {
   };
   // Select marker function
   self.selectMarker = function(location) {
+    $("li.locationListItems").css("background-color", "black");
+    $("#" + location.id).css("background-color", "grey");
+    var color = $("#" + location.id).css("background-color")
+    console.log(color);
     // Search through markers to which one matches location clicked.
     for (i = 0; i < markers.length; i++) {
-      // Run populate info window and toggle boucnce with marker that matches locaiton. 
+      // Run populate info window and toggle boucnce with marker that matches locaiton.
       if (location.name ==  markers[i].title) {
         populateInfoWindow(markers[i], largeInfowindow);
         toggleBounce(markers[i]);
@@ -182,12 +190,7 @@ var viewModel = function() {
   }
 
   // Function to change list items to under or not underlined.
-  self.changeUnderline = function() {
-    if (self.isClicked() == true) {
-      return 'clicked';
-    } else {
-      return 'unclicked';
-    }
+  self.underlineItem = function(location) {
   }
 
   /*==== Google maps functions ====*/

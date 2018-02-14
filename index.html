@@ -13,31 +13,42 @@
     <div id="searchPanel" data-bind="visible: showSearchPanel">
       <h3>Worcester Locations</h3>
       <div class="searchBarButton">
+        <!-- Search form. -->
         <form id="searchForm">
+          <!-- Search field input.. -->
           <input id="searchField" type="text" name="searchLocation"
             placeholder="Enter Search Here" size="30"
             data-bind="textInput: searchLocation">
+          <!-- Filter search button -->
           <button id="filterButton" type="button"
             data-bind="click: filterResetSearch, attr: { title: filterButtonTitle() }">
+            <!-- Graphic for filter button. -->
             <span class="glyphicon glyphicon-filter"></span>
             <p id="filterButtonText" data-bind="text: filterButtonText"></p>
           </button>
         </form>
       </div>
       <div class="searchList">
-        <ul id="locationList" data-bind="foreach: locationList">
-          <li class="locationListName" data-bind="text: name,
-            click: $parent.selectMarker, css: $parent.changeUnderline()"></li>
+        <!-- List of locations. -->
+        <ul class="locationList" data-bind="foreach: locationList">
+          <!-- Each individual list item. -->
+          <li class="locationListItems" data-bind="text: name, attr: { id: id },
+          click: $parent.selectMarker"></li>
         </ul>
       </div>
     </div>
+    <!-- Main section that holds map and top bar. -->
     <section class="mainContent">
+      <!-- Top bar. -->
       <div class="topBar">
+        <!-- Top bar button to close/open search pane. -->
         <button id="hidePaneButton" type="button" data-bind="click: toggleSearchPane,
           attr: { title: searchPaneButtonTitle() }">
+          <!-- Span that holds button image. . -->
           <span class="glyphicon glyphicon-menu-hamburger"></span>
         </button>
       </div>
+      <!-- Div to hold map element. -->
       <div id="map"></div>
     </section>
     <script src="static/js/app.js"></script>

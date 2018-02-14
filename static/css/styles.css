@@ -30,16 +30,6 @@ html, body {
 #searchField {
   width: 70%
 }
-#locationList, #searchedlocationList {
-  text-align: left;
-  padding-left: 20px;
-  margin: 1%;
-  list-style-type: none;
-}
-#locationList li:hover, #searchedlocationList li:hover {
-  text-decoration: underline;
-  cursor: pointer;
-}
 #foursquareImage {
   width: 200px;
   height: 200px;
@@ -64,11 +54,6 @@ html, body {
   margin-left: 1px;
   margin-right: 3px;
 }
-.locationListName {
-  margin-top: 10%;
-  margin-bottom: 10%;
-  color: white;
-}
 .topBar {
   background-color: #595959;
   height: 40px;
@@ -80,9 +65,22 @@ html, body {
 .mainContent {
   height: 95.7%;
 }
-.clicked {
-  text-decoration: underline;
+.locationList {
+  text-align: left;
+  padding-left: 0px;
+  margin: 0%;
+  list-style-type: none;
 }
-.unclicked {
-  text-decoration: none;
+.locationList li:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.locationListItems {
+  margin-top: 10%;
+  margin-bottom: 10%;
+  color: white;
+}
+.locationList li {
+  width: 100%;
+  padding-left: 8px;
 }
