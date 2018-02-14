@@ -170,11 +170,10 @@ var viewModel = function() {
       var fourSquareClientId = "KNCUUURDLALARYLELMI4ZNRGOLPX44XYMPCOWRTWWOVDN4WA";
       var fourSquareClientSecret = "YOEN04J05A1VH4JIGUBUGSWOGYMOEK4PGIOEXHRSA43VSIAC";
       // Create foursqure url to send.
-      var fourSquareUrl =
-        ("https://api.foursquare.com/v2/venues/search?limit=1&query=" + "&" +
-        locationPictureSearch + "&near=" + latLng + "&client_id=" +
-        fourSquareClientId + "&client_secret=" + fourSquareClientSecret +
-        "&v=20180212");
+      var fourSquareUrl = (`https://api.foursquare.com/v2/venues/search?limit=1&query=&
+        ${locationPictureSearch} &near= ${latLng} &client_id=
+        ${fourSquareClientId} &client_secret= ${fourSquareClientSecret}
+        &v=20180212`);
       // Ajax request to get venue ID. This will be used to get a photo.
       $.getJSON(fourSquareUrl, function(data) {
         // Check that the repsonse from sever is OK.
@@ -184,9 +183,11 @@ var viewModel = function() {
             // Get the venue ID from the response.
             var venueID = data.response.venues[0].id;
             // Create new URL for the photo request.
-            var fourSquarePictureUrl = ("https://api.foursquare.com/v2/venues/" +
-            venueID + "/photos?limit=1" + "&client_id=" + fourSquareClientId +
-            "&client_secret=" + fourSquareClientSecret + "&v=20180212");
+            var test = (`https://api.foursquare.com/v2/venues/${venueID}`);
+            console.log(test);
+            var fourSquarePictureUrl = (`https://api.foursquare.com/v2/venues/`+
+              `${venueID}/photos?limit=1&client_id=${fourSquareClientId}` +
+              `&client_secret=${fourSquareClientSecret}&v=20180212`);
             // Second ajax will use Venue ID from first ajax request to get pictures.
             $.getJSON(fourSquarePictureUrl, function(data) {
               // Check that 200 code was received.
