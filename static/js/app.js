@@ -123,7 +123,7 @@ var viewModel = function() {
       self.showSearchPanel(true);
       self.searchPaneButtonTitle("Hide Search Pane");
     }
-  };
+  }
   // Filter search function
   self.filterResetSearch = function() {
     // Check the value of the button.
@@ -147,7 +147,7 @@ var viewModel = function() {
           if (markerSearch.indexOf(searchQuery) == -1) {
             markers[i - 1].setMap(null);
           }
-        };
+        }
         // hide filter button
         self.filterButtonText("Reset")
         self.filterButtonTitle("Reset Search")
@@ -170,7 +170,7 @@ var viewModel = function() {
       // Reset the bounds
       map.fitBounds(bounds);
     }
-  };
+  }
   // Select marker function
   self.selectMarker = function(location) {
     // Set all list items to background color black.
@@ -290,5 +290,5 @@ var viewModel = function() {
       }
       marker.setAnimation(google.maps.Animation.BOUNCE);
     }
-  };
-};
+  }
+}
