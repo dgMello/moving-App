@@ -58,39 +58,8 @@ var viewModel = function() {
   var self = this;
   var markers = [];
 
-  /*==== Create Markers ====*/
-
- // For loop to create and push markers
-  for (var i = 0; i < locationsData.length; i++) {
-    // Get postion from locaton var
-    var position = locationsData[i].location;
-    // Get title from locaton var
-    var title = locationsData[i].title;
-    // Create a marker per location, and put into markers array.
-    var marker = new google.maps.Marker({
-      map: map,
-      position: position,
-      title: title,
-      animation: google.maps.Animation.DROP,
-      id: i
-    });
-    // Create an onclick event to open an infowindow at each marker.
-    marker.addListener("click", function() {
-      populateInfoWindow(this, largeInfowindow);
-    });
-    // Add event listener to toggle bounce animation when marker is clicked.
-    marker.addListener("click", function() {
-      toggleBounce(this);
-    });
-    // Push the markers to the map.
-    markers.push(marker);
-    // Extend the bounds with each marker.
-    bounds.extend(markers[i].position);
-  }
-  // Fit the bounds.
-  map.fitBounds(bounds);
-
   /*==== ko observables ====*/
+
   // Create ko observable for search input.
   self.searchLocation = ko.observable();
   // Create ko observable boolean for search panel visibility.
@@ -289,4 +258,36 @@ var viewModel = function() {
       marker.setAnimation(google.maps.Animation.BOUNCE);
     }
   }
+
+  /*==== Create Markers ====*/
+
+ // For loop to create and push markers
+  for (var i = 0; i < locationsData.length; i++) {
+    // Get postion from locaton var
+    var position = locationsData[i].location;
+    // Get title from locaton var
+    var title = locationsData[i].title;
+    // Create a marker per location, and put into markers array.
+    var marker = new google.maps.Marker({
+      map: map,
+      position: position,
+      title: title,
+      animation: google.maps.Animation.DROP,
+      id: i
+    });
+    // Create an onclick event to open an infowindow at each marker.
+    marker.addListener("click", function() {
+      populateInfoWindow(this, largeInfowindow);
+    });
+    // Add event listener to toggle bounce animation when marker is clicked.
+    marker.addListener("click", function() {
+      toggleBounce(this);
+    });
+    // Push the markers to the map.
+    markers.push(marker);
+    // Extend the bounds with each marker.
+    bounds.extend(markers[i].position);
+  }
+  // Fit the bounds.
+  map.fitBounds(bounds);
 };
