@@ -16,7 +16,6 @@ function initMap() {
     center: {lat: 42.2683199, lng: -71.8174296},
     zoom: 13
   });
-  console.log("Map created!");
 
   ko.applyBindings(new viewModel());
 };
@@ -53,7 +52,6 @@ var locationsData = [
 
 /* ======= ViewModel ======= */
 var viewModel = function() {
-  console.log("The bindings have binded!");
 
   /*==== Variables ====*/
 
@@ -175,10 +173,10 @@ var viewModel = function() {
   };
   // Select marker function
   self.selectMarker = function(location) {
+    // Set all list items to background color black.
     $("li.locationListItems").css("background-color", "black");
+    // Set the selected list item to the color grey.
     $("#" + location.id).css("background-color", "grey");
-    var color = $("#" + location.id).css("background-color")
-    console.log(color);
     // Search through markers to which one matches location clicked.
     for (i = 0; i < markers.length; i++) {
       // Run populate info window and toggle boucnce with marker that matches locaiton.
@@ -187,10 +185,6 @@ var viewModel = function() {
         toggleBounce(markers[i]);
       }
     }
-  }
-
-  // Function to change list items to under or not underlined.
-  self.underlineItem = function(location) {
   }
 
   /*==== Google maps functions ====*/
