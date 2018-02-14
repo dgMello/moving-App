@@ -113,9 +113,9 @@ var viewModel = function() {
       } else {
         // Loop through location list to see if they match your search query.
         for (a = listLength; a > 0; a--) {
-          searchQuery = self.searchLocation().toLowerCase();
-          listLocation = self.locationList()[a -1].name.toLowerCase();
-          markerSearch = markers[a - 1].title.toLowerCase();
+          var searchQuery = self.searchLocation().toLowerCase();
+          var listLocation = self.locationList()[a -1].name.toLowerCase();
+          var markerSearch = markers[a - 1].title.toLowerCase();
           // If search query matches on one of the locations add it to your search array.
           if (listLocation.indexOf(searchQuery) == -1) {
             self.locationList.remove(self.locationList()[a - 1]);
@@ -148,7 +148,7 @@ var viewModel = function() {
       map.fitBounds(bounds);
     }
   };
-  // Function that is run whenever a list item is clicked.
+  // Select marker function
   self.listItemSelected = function(location) {
     // Set all list items to background color black.
     $("li.locationListItems").css("background-color", "black");
@@ -156,7 +156,7 @@ var viewModel = function() {
     $("#" + location.id).css("background-color", "grey");
     // Search through markers to which one matches location clicked.
     for (i = 0; i < markers.length; i++) {
-      // Run populate info window and toggle bounce with marker that matches location.
+      // Run populate info window and toggle boucnce with marker that matches locaiton.
       if (location.name ==  markers[i].title) {
         if (markers[i].getAnimation() === null) {
           populateInfoWindow(markers[i], largeInfowindow);
@@ -168,7 +168,7 @@ var viewModel = function() {
 
   /*==== Google maps functions ====*/
 
-    // Function to add info windows.
+  // Function to add info windows.
     function populateInfoWindow(marker, infowindow) {
       // This function gets the street view panaorma of each marker and adds
       // it to the infowinow.
@@ -180,11 +180,10 @@ var viewModel = function() {
         var fourSquareClientId = "KNCUUURDLALARYLELMI4ZNRGOLPX44XYMPCOWRTWWOVDN4WA";
         var fourSquareClientSecret = "YOEN04J05A1VH4JIGUBUGSWOGYMOEK4PGIOEXHRSA43VSIAC";
         // Create foursqure url to send.
-        var fourSquareUrl =
-          ("https://api.foursquare.com/v2/venues/search?limit=1&query=" + "&" +
-          locationPictureSearch + "&near=" + latLng + "&client_id=" +
-          fourSquareClientId + "&client_secret=" + fourSquareClientSecret +
-          "&v=20180212");
+        var fourSquareUrl = (`https://api.foursquare.com/v2/venues/search?limit=1&query=&
+          ${locationPictureSearch} &near= ${latLng} &client_id=
+          ${fourSquareClientId} &client_secret= ${fourSquareClientSecret}
+          &v=20180212`);
         // Ajax request to get venue ID. This will be used to get a photo.
         $.getJSON(fourSquareUrl)
           // Function run if ajax request succeeds searching for venue ID.
@@ -196,9 +195,9 @@ var viewModel = function() {
                 // Get the venue ID from the response.
                 var venueID = data.response.venues[0].id;
                 // Create new URL for the photo request.
-                var fourSquarePictureUrl = ("https://api.foursquare.com/v2/venues/" +
-                  venueID + "/photos?limit=1" + "&client_id=" + fourSquareClientId +
-                  "&client_secret=" + fourSquareClientSecret + "&v=20180212");
+                var fourSquarePictureUrl = (`https://api.foursquare.com/v2/venues/`+
+                  `${venueID}/photos?limit=1&client_id=${fourSquareClientId}` +
+                  `&client_secret=${fourSquareClientSecret}&v=20180212`);
                   // Second ajax will use Venue ID from first ajax request to get pictures.
                   $.getJSON(fourSquarePictureUrl)
                     // Function run if ajax request succeeds searching for venue photo.
