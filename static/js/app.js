@@ -77,7 +77,7 @@ var viewModel = function() {
     });
     // Add event listener to toggle bounce animation when marker is clicked.
     marker.addListener("click", function() {
-      toggleBounce(this, marker);
+      toggleBounce(this);
     });
     // Push the markers to the map.
     markers.push(marker);
@@ -106,8 +106,8 @@ var viewModel = function() {
   self.searchPaneButtonTitle = ko.observable("Hide Search Pane")
   // Create ko obervable for filter button.
   self.filterButtonTitle = ko.observable("Filter Search")
-  // Test observable *Remove after test complete.*
-  self.currentProfit = ko.observable(false);
+  // Create ko obervable for checking to see if list item is checked.
+  self.isClicked = ko.observable(false);
 
 
   /*==== KO Functions ====*/
@@ -170,20 +170,20 @@ var viewModel = function() {
     }
   };
   // Select marker function
-  self.selectMarker = function() {
-    console.log("Clicked!");
-    if (self.currentProfit() == true) {
-      self.currentProfit(false);
-      console.log(self.locationList().name);
-
-    } else {
-      self.currentProfit(true);
+  self.selectMarker = function(location) {
+    // Search through markers to which one matches location clicked.
+    for (i = 0; i < markers.length; i++) {
+      // Run populate info window and toggle boucnce with marker that matches locaiton. 
+      if (location.name ==  markers[i].title) {
+        populateInfoWindow(markers[i], largeInfowindow);
+        toggleBounce(markers[i]);
+      }
     }
-  };
+  }
 
   // Function to change list items to under or not underlined.
   self.changeUnderline = function() {
-    if (self.currentProfit() == true) {
+    if (self.isClicked() == true) {
       return 'clicked';
     } else {
       return 'unclicked';
@@ -206,7 +206,7 @@ var viewModel = function() {
       getFoursqurePicture(marker);
       // This function gets the street view panaorma of each marker and adds
       // it to the infowinow.
-      function getFoursqurePicture() {
+      function getFoursqurePicture(marker) {
         // Get Location title fropm clicked marker.
         var locationPictureSearch = marker.title;
         // Get Location latlng fropm clicked marker.
