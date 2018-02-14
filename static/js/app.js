@@ -261,8 +261,8 @@ var viewModel = function() {
 
   /*==== Create Markers ====*/
 
- // For loop to create and push markers
-  for (var i = 0; i < locationsData.length; i++) {
+ // Create markers function.  This will be run through a loop to create the markers.
+  function createMarkers(i) {
     // Get postion from locaton var
     var position = locationsData[i].location;
     // Get title from locaton var
@@ -287,6 +287,10 @@ var viewModel = function() {
     markers.push(marker);
     // Extend the bounds with each marker.
     bounds.extend(markers[i].position);
+  }
+  // Loop to create markers.
+  for (var i = 0; i < self.locationList().length; i++) {
+    createMarkers(i);
   }
   // Fit the bounds.
   map.fitBounds(bounds);
