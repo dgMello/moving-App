@@ -16,22 +16,21 @@
           <!-- Search field input.. -->
           <input id="searchField" type="text" name="searchLocation"
             placeholder="Enter Search Here" size="30"
-            data-bind="textInput: searchLocation, valueUpdate: afterkeydown">
+            data-bind="textInput: searchLocation, valueUpdate: keyup"
           <!-- Filter search button -->
-          <button id="filterButton" type="button"
-            data-bind="click: filterResetSearch, attr: { title: filterButtonTitle() }">
-            <!-- Graphic for filter button. -->
+          <div id="filterIcon">
+            <!-- Graphic for filter icon. -->
             <span class="glyphicon glyphicon-filter"></span>
-            <p id="filterButtonText" data-bind="text: filterButtonText"></p>
-          </button>
+            <p id="filterIconText">Filter</p>
+          </div>
         </form>
       </div>
       <div class="searchList">
         <!-- List of locations. -->
-        <ul class="locationList" data-bind="foreach: locationList">
+        <ul class="locationList" data-bind="foreach: filterSearch()">
           <!-- Each individual list item. -->
           <li class="locationListItems" data-bind="text: name, attr: { id: id },
-          click: $parent.listItemSelected"></li>
+            click: $parent.listItemSelected"></li>
         </ul>
       </div>
     </div>

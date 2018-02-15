@@ -32,8 +32,6 @@ var viewModel = function() {
 
   /*==== ko observables ====*/
 
-  // Create ko observable for search input.
-  self.searchLocation = ko.observable();
   // Create ko observable boolean for search panel visibility.
   self.showSearchPanel = ko.observable(true);
   // Create KO observable array for locatoins
@@ -41,16 +39,14 @@ var viewModel = function() {
   // Go through locations array and create a observable array.
   locationsData.forEach(function(location) {
     self.locationList.push({name: location.title, id: location.id,
-      marker: location.marker});
+      marker: location.marker, visible: location.visible});
   });
   // Create ko observable for checking if item is selected.
   self.itemSelected = ko.observable(false);
   // Create ko observable for filter button text.
-  self.filterButtonText = ko.observable("Filter");
-  // Create ko observable for searchpanebutton.
   self.searchPaneButtonTitle = ko.observable("Hide Search Pane");
   // Create ko obervable for filter button.
-  self.filterButtonTitle = ko.observable("Filter Search");
+
 
   /*==== Create Markers ====*/
 
@@ -98,53 +94,20 @@ var viewModel = function() {
       self.searchPaneButtonTitle("Hide Search Pane");
     }
   };
-  // Filter search function
-  self.filterResetSearch = function() {
-    // Check the value of the button.
-    if (self.filterButtonText() == "Filter") {
-      var listLength = self.locationList().length;
-      // Check to see if anything has been entered into the search field.
-      if (self.searchLocation() === null) {
-        // Alert user that nothing was empty.
-        alert("Search field is empty.  Please enter search query.");
+  // Create KO observable search for holding search items.
+  self.searchLocation = ko.observable('');
+  // Use ko pureComputed to filter your search array.
+  self.filterSearch = ko.pureComputed(function() {
+    return ko.utils.arrayFilter(self.locationList(), function(location) {
+      // Filter markers based on search query.
+      if (location.marker.title.toLowerCase().indexOf(self.searchLocation().toLowerCase()) == -1) {
+        location.marker.setMap(null);
       } else {
-        // Loop through location list to see if they match your search query.
-        for (var a = listLength; a > 0; a--) {
-          var searchQuery = self.searchLocation().toLowerCase();
-          var listLocation = self.locationList()[a -1].name.toLowerCase();
-          var markerSearch = markers[a - 1].title.toLowerCase();
-          // If search query matches on one of the locations add it to your search array.
-          if (listLocation.indexOf(searchQuery) == -1) {
-            self.locationList.remove(self.locationList()[a - 1]);
-          }
-          // Check each marker to see if they match search query.
-          if (markerSearch.indexOf(searchQuery) == -1) {
-            markers[a - 1].setMap(null);
-          }
-        }
-        // hide filter button
-        self.filterButtonText("Reset");
-        self.filterButtonTitle("Reset Search");
+        location.marker.setMap(map);
       }
-    } else {
-      // Empty location list.
-      self.locationList([]);
-      // Re add items to locations list array.
-      locationsData.forEach(function(location) {
-        self.locationList.push({name: location.title, id: location.id});
-      });
-      self.filterButtonText("Filter");
-      self.filterButtonTitle("Filter Search");
-      self.searchLocation(null);
-      // Add markers back to map.
-      for (var i = 0; i < markers.length; i++) {
-        markers[i].setMap(map);
-        bounds.extend(markers[i].position);
-      }
-      // Reset the bounds
-      map.fitBounds(bounds);
-    }
-  };
+      return location.name.toLowerCase().indexOf(self.searchLocation().toLowerCase()) >= 0;
+    });
+  });
   // Select marker function
   self.listItemSelected = function(location) {
     // Set all list items to background color black.
