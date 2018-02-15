@@ -2,7 +2,9 @@
 var map;
 var largeInfowindow;
 var bounds;
+
 /* ======= Google Map ======= */
+
 // Function to initilize map.
 function initMap() {
   // Create mapElem
