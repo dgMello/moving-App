@@ -40,7 +40,8 @@ var viewModel = function() {
   self.locationList = ko.observableArray([]);
   // Go through locations array and create a observable array.
   locationsData.forEach(function(location) {
-    self.locationList.push({name: location.title, id: location.id});
+    self.locationList.push({name: location.title, id: location.id,
+      marker: location.marker});
   });
   // Create ko observable for checking if item is selected.
   self.itemSelected = ko.observable(false);
@@ -71,16 +72,12 @@ var viewModel = function() {
     marker.addListener("click", function() {
       populateInfoWindow(this, largeInfowindow);
       toggleBounce(this);
-      for (i = 0; i < self.locationList().length; i++) {
-        if (self.locationList()[i].name === marker.title) {
-          self.listItemSelected(self.locationList()[i]);
-        }
-      }
     });
     // Push the markers to the map.
-    markers.push(marker);
+    self.locationList()[i].marker = marker;
+    // Push the markers to the map.
     // Extend the bounds with each marker.
-    bounds.extend(markers[i].position);
+    bounds.extend(self.locationList()[i].marker.position);
   }
   // Loop to create markers.
   for (var i = 0; i < self.locationList().length; i++) {
@@ -112,7 +109,7 @@ var viewModel = function() {
         alert("Search field is empty.  Please enter search query.");
       } else {
         // Loop through location list to see if they match your search query.
-        for (a = listLength; a > 0; a--) {
+        for (var a = listLength; a > 0; a--) {
           var searchQuery = self.searchLocation().toLowerCase();
           var listLocation = self.locationList()[a -1].name.toLowerCase();
           var markerSearch = markers[a - 1].title.toLowerCase();
@@ -154,16 +151,9 @@ var viewModel = function() {
     $("li.locationListItems").css("background-color", "black");
     // Set the selected list item to the color grey.
     $("#" + location.id).css("background-color", "grey");
-    // Search through markers to which one matches location clicked.
-    for (i = 0; i < markers.length; i++) {
-      // Run populate info window and toggle boucnce with marker that matches locaiton.
-      if (location.name ==  markers[i].title) {
-        if (markers[i].getAnimation() === null) {
-          populateInfoWindow(markers[i], largeInfowindow);
-          toggleBounce(markers[i]);
-        }
-      }
-    }
+    // Run toggle bounce and poplulate info window on the correlating marker.
+    populateInfoWindow(location.marker, largeInfowindow);
+    toggleBounce(location.marker, largeInfowindow);
   };
 
   /*==== Google maps functions ====*/
@@ -268,14 +258,13 @@ var viewModel = function() {
         infowindow.open(map, marker);
     }
   // Function for toggle the bounce animation for any marker that is clicked.
-  function toggleBounce(marker) {
+  function toggleBounce(marker, infowindow) {
     if (marker.getAnimation() !== null) {
       marker.setAnimation(null);
     } else {
-      // Check to see if any other markers are bouncing and remove bounce animation.
-      for (i = 0; i < markers.length; i++) {
-        if (markers[i].animating === true) {
-          markers[i].setAnimation(null);
+      for (var i = 0; i < self.locationList().length; i++) {
+        if (self.locationList()[i].marker.animating === true) {
+          self.locationList()[i].marker.setAnimation(null);
         }
       }
       marker.setAnimation(google.maps.Animation.BOUNCE);

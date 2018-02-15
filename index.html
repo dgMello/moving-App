@@ -16,7 +16,7 @@
           <!-- Search field input.. -->
           <input id="searchField" type="text" name="searchLocation"
             placeholder="Enter Search Here" size="30"
-            data-bind="textInput: searchLocation">
+            data-bind="textInput: searchLocation, valueUpdate: afterkeydown">
           <!-- Filter search button -->
           <button id="filterButton" type="button"
             data-bind="click: filterResetSearch, attr: { title: filterButtonTitle() }">
