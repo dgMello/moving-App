@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Neighborhood Map App</title>
+    <title>Neighborhood Map App TEST</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="static/img/favicon.ico">
     <link rel="stylesheet" type="text/css" href="static/css/styles.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script type='text/javascript' src='static/js/lib/knockout-3.4.2.js'></script>
   </head>
   <body>
     <div id="searchPanel" data-bind="visible: showSearchPanel">
@@ -33,7 +31,7 @@
         <ul class="locationList" data-bind="foreach: locationList">
           <!-- Each individual list item. -->
           <li class="locationListItems" data-bind="text: name, attr: { id: id },
-          click: $parent.selectMarker"></li>
+          click: $parent.listItemSelected"></li>
         </ul>
       </div>
     </div>
@@ -51,9 +49,12 @@
       <!-- Div to hold map element. -->
       <div id="map"></div>
     </section>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type='text/javascript' src='static/js/lib/knockout-3.4.2.js'></script>
+    <script src="static/js/locations.js"></script>
     <script src="static/js/app.js"></script>
     <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8zsTe7cMp6CtEqyWs_JWka26D2JXWFl8&libraries=geometry,places&v=3&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8zsTe7cMp6CtEqyWs_JWka26D2JXWFl8&libraries=geometry,places&v=3&callback=initMap&" onerror="googleError()">
     </script>
   </body>
 </html>
