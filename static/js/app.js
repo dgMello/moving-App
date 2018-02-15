@@ -78,8 +78,6 @@ var viewModel = function() {
   self.searchPaneButtonTitle = ko.observable("Hide Search Pane");
   // Create ko obervable for filter button.
   self.filterButtonTitle = ko.observable("Filter Search");
-  // Create ko obervable for checking to see if list item is checked.
-  self.isClicked = ko.observable(false);
 
   /*==== KO Functions ====*/
 
