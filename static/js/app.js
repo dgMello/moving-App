@@ -24,8 +24,7 @@ function initMap() {
 
 // Function that runs when their is an error loading the map.
 function googleError() {
-  this.mapElem = document.getElementByTagName("body");
-  this.setContent("<div><h1>Error loading map</h1></div>")
+  document.getElementByTagName("body").innerHTML = "Error loading map.";
 }
 
 /* ======= ViewModel ======= */
