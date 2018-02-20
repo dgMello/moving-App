@@ -24,7 +24,7 @@ function initMap() {
 
 // Function that runs when their is an error loading the map.
 function googleError() {
-  document.getElementByTagName("body").innerHTML = "Error loading map.";
+  document.getElementById("map").innerHTML = "Error loading map.";
 }
 
 /* ======= ViewModel ======= */
@@ -100,7 +100,7 @@ var viewModel = function() {
     }
   };
   // Create KO observable search for holding search items.
-  self.searchLocation = ko.observable('');
+  self.searchLocation = ko.observable("");
   // Use ko pureComputed to filter your search array.
   self.filterSearch = ko.pureComputed(function() {
     return ko.utils.arrayFilter(self.locationList(), function(location) {
@@ -127,21 +127,21 @@ var viewModel = function() {
   /*==== Google maps functions ====*/
 
   // Function to add info windows.
-    function populateInfoWindow(marker, infowindow) {
-      // This function gets the street view panaorma of each marker and adds
-      // it to the infowinow.
-      function getFoursqurePicture(marker) {
-        // Get Location title fropm clicked marker.
-        var locationPictureSearch = marker.title;
-        // Get Location latlng fropm clicked marker.
-        var latLng = marker.position.lat() + "," + marker.position.lng();
-        var fourSquareClientId = "KNCUUURDLALARYLELMI4ZNRGOLPX44XYMPCOWRTWWOVDN4WA";
-        var fourSquareClientSecret = "YOEN04J05A1VH4JIGUBUGSWOGYMOEK4PGIOEXHRSA43VSIAC";
-        // Create foursqure url to send.
-        var fourSquareUrl = (`https://api.foursquare.com/v2/venues/search?limit=1&query=&
-          ${locationPictureSearch} &near= ${latLng} &client_id=
-          ${fourSquareClientId} &client_secret= ${fourSquareClientSecret}
-          &v=20180212`);
+  function populateInfoWindow(marker, infowindow) {
+    // This function gets the street view panaorma of each marker and adds
+    // it to the infowinow.
+    function getFoursqurePicture(marker) {
+      // Get Location title fropm clicked marker.
+      var locationPictureSearch = marker.title;
+      // Get Location latlng fropm clicked marker.
+      var latLng = marker.position.lat() + "," + marker.position.lng();
+      var fourSquareClientId = "KNCUUURDLALARYLELMI4ZNRGOLPX44XYMPCOWRTWWOVDN4WA";
+      var fourSquareClientSecret = "YOEN04J05A1VH4JIGUBUGSWOGYMOEK4PGIOEXHRSA43VSIAC";
+      // Create foursqure url to send.
+      var fourSquareUrl = (`https://api.foursquare.com/v2/venues/search?limit=1&query=&
+        ${locationPictureSearch} &near= ${latLng} &client_id=
+        ${fourSquareClientId} &client_secret= ${fourSquareClientSecret}
+        &v=20180212`);
         // Ajax request to get venue ID. This will be used to get a photo.
         $.getJSON(fourSquareUrl)
           // Function run if ajax request succeeds searching for venue ID.
