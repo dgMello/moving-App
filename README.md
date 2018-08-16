@@ -14,7 +14,7 @@
     Open index.html.
 
 ## Usage
-  A web browser is requried to use this application.
+  A web browser is required to use this application.
 
 ## Programming language's used
   HTML
